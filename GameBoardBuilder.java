@@ -33,6 +33,7 @@ public class GameBoardBuilder
     private Stage gameStage;
     private BorderPane boardLayout;
     private HBox topRow, middleRow, bottomRow;
+    private VBox resultBox;
    
     //Constructor for game board;
     public GameBoardBuilder()
@@ -41,7 +42,7 @@ public class GameBoardBuilder
         this.blankImageArray = new ImageView[9];
         this.xImageArray = new ImageView[9];
         this.oImageArray = new ImageView[9];
-    
+        
         this.gameResult = new Label();
         this.gameStage = new Stage();
         this.boardLayout = new BorderPane();
@@ -60,12 +61,14 @@ public class GameBoardBuilder
         this.bottomLeft = new Button();
         this.bottomCenter = new Button();
         this.bottomRight = new Button();
+        this.reset = new Button();
+        this.exit = new Button();
         
         setBoardBlank();
         setXimageArray();
         setOimageArray();
         setButtonHandlers();
-        setButtonGraphics();
+        setButtonEmptyGraphics();
         setHbox();
         setBoardLayout();
         showBoard(); 
@@ -121,9 +124,11 @@ public class GameBoardBuilder
         bottomLeft.setOnAction(new BottomLeftButtonHandler());
         bottomCenter.setOnAction(new BottomCenterButtonHandler());
         bottomRight.setOnAction(new BottomRightButtonHandler());
+        reset.setOnAction(new ResetButtonHandler());
+        exit.setOnAction(new ExitButtonHandler());
     }
     
-    private void setButtonGraphics()
+    private void setButtonEmptyGraphics()
     {
         topLeft.setGraphic(blankImageArray[0]);
         topCenter.setGraphic(blankImageArray[1]);
@@ -168,6 +173,41 @@ public class GameBoardBuilder
         bottomLeft.setDisable(true); 
         bottomCenter.setDisable(true); 
         bottomRight.setDisable(true);
+    }
+    
+    private void activeOnReset()
+    {
+        topLeft.setDisable(false); 
+        topCenter.setDisable(false); 
+        topRight.setDisable(false); 
+        middleLeft.setDisable(false); 
+        middleCenter.setDisable(false); 
+        middleRight.setDisable(false); 
+        bottomLeft.setDisable(false); 
+        bottomCenter.setDisable(false); 
+        bottomRight.setDisable(false);
+    }
+    
+    private void setInnerArrayEmpty()
+    {
+        for(int i = 0; i < gameBoard.length; i++)
+            {
+                for(int j = 0; j < gameBoard.length; j++)
+                {
+                    gameBoard[i][j] = " ";
+                }
+            }
+    }
+    
+    private void setResultVbox()
+    {
+        reset.setText("New Game");
+        exit.setText("Exit");
+        resultBox = new VBox(5, gameResult, reset, exit);
+        resultBox.setPadding(new Insets(5));
+        resultBox.setAlignment(Pos.CENTER);
+        resultStage = new Stage();
+        resultScene = new Scene(resultBox);
     }
     
     //Event handlers for buttons.
@@ -387,52 +427,15 @@ public class GameBoardBuilder
         @Override
         public void handle(ActionEvent event)
         {
-            resultStage.close();
-            for(int i = 0; i < gameBoard.length; i++)
-            {
-                for(int j = 0; j < gameBoard.length; j++)
-                {
-                    gameBoard[i][j] = " ";
-                }
-            }
-            
-            topLeft.setGraphic(blankImageArray[0]);
-            topCenter.setGraphic(blankImageArray[1]);
-            topRight.setGraphic(blankImageArray[2]);
-            middleLeft.setGraphic(blankImageArray[3]);
-            middleCenter.setGraphic(blankImageArray[4]);
-            middleRight.setGraphic(blankImageArray[5]);
-            bottomLeft.setGraphic(blankImageArray[6]);
-            bottomCenter.setGraphic(blankImageArray[7]);
-            bottomRight.setGraphic(blankImageArray[8]);
-            
-            topLeft.setDisable(false);
-            topCenter.setDisable(false);
-            topRight.setDisable(false);
-            middleLeft.setDisable(false);
-            middleCenter.setDisable(false);
-            middleRight.setDisable(false);
-            bottomLeft.setDisable(false);
-            bottomCenter.setDisable(false);
-            bottomRight.setDisable(false);
-            
-            HBox topRow = new HBox(5, topLeft, topCenter, topRight);
-            HBox middleRow = new HBox(5, middleLeft, middleCenter, middleRight);
-            HBox bottomRow = new HBox(5, bottomLeft, bottomCenter, bottomRight);
-        
-            BorderPane boardLayout = new BorderPane();
-            boardLayout.setTop(topRow);
-            boardLayout.setCenter(middleRow);
-            boardLayout.setBottom(bottomRow);
-        
-            gameStage.close();
-            Scene gameScene = new Scene(boardLayout);
-            gameStage.setScene(gameScene);
-            gameStage.setTitle("Tic Tac Toe");
-            gameStage.show(); 
+            resultStage.close();            
+            setButtonEmptyGraphics();
+            setInnerArrayEmpty();
+            activeOnReset();
+            setHbox();
+            setBoardLayout();
+            showBoard(); 
         }
     }
-    
     private class ExitButtonHandler implements EventHandler<ActionEvent>
     {
         @Override
@@ -448,20 +451,7 @@ public class GameBoardBuilder
     {
         boolean isDone = false;
         
-        reset = new Button();
-        exit = new Button();
-        
-        reset.setOnAction(new ResetButtonHandler());
-        exit.setOnAction(new ExitButtonHandler());
-        
-        reset.setText("New Game");
-        exit.setText("Exit");
-        
-        VBox resultBox = new VBox(5, gameResult, reset, exit);
-        resultBox.setPadding(new Insets(5));
-        resultBox.setAlignment(Pos.CENTER);
-        resultStage = new Stage();
-        resultScene = new Scene(resultBox);
+        setResultVbox();
         
         if(Functions.checkXwinner(gameBoard) == false && Functions.checkOwinner(gameBoard) == true)
         {
