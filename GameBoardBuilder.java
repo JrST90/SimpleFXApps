@@ -24,7 +24,7 @@ public class GameBoardBuilder
     private Image xImage, oImage, blankImage ;
     private ImageView[] xImageArray, oImageArray, blankImageArray;
     
-    private String[][] gameBoard = new String[3][3];
+    private String[][] gameBoard;
     
     private Stage resultStage;
     private Scene resultScene, gameScene;
@@ -35,57 +35,31 @@ public class GameBoardBuilder
     //Constructor for game board;
     public GameBoardBuilder()
     {
-        blankImageArray = new ImageView[9];
-        
-        xImageArray = new ImageView[9];
-        oImageArray = new ImageView[9];
+        this.gameBoard  = new String[3][3];
+        this.blankImageArray = new ImageView[9];
+        this.xImageArray = new ImageView[9];
+        this.oImageArray = new ImageView[9];
     
-        gameResult = new Label();
+        this.gameResult = new Label();
+        this.gameStage = new Stage();
         
-        gameStage = new Stage();
+        this.xImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\xMove.jpg");
+        this.oImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\circleMove.jpg");
+        this.blankImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\blankSpace.jpg");
         
-	//File paths to images used to display on board.
-        xImage = new Image("file:C:\\Users\\UserName\\images\\xMove.jpg");
-        oImage = new Image("file:C:\\Users\\UserName\\images\\circleMove.jpg");
-        blankImage = new Image("file:C:\\Users\\UserName\\images\\blankSpace.jpg");
-        
-        for(int i = 0; i < gameBoard.length; i++)
-        {
-            for(int j = 0; j < gameBoard.length; j++)
-            {
-                gameBoard[i][j] = " ";
-            }
-        }
-        
-        for(int i = 0; i < blankImageArray.length; i++)
-        {
-            blankImageArray[i] = new ImageView(blankImage);
-            blankImageArray[i].setFitWidth(50);
-            blankImageArray[i].setFitHeight(50);
-        }
-        for(int i = 0; i <xImageArray.length; i++)
-        {
-            xImageArray[i] = new ImageView(xImage);
-            xImageArray[i].setFitWidth(50);
-            xImageArray[i].setFitHeight(50);
-        }
-        
-        for(int i = 0; i < oImageArray.length; i++)
-        {
-            oImageArray[i] = new ImageView(oImage);
-            oImageArray[i].setFitWidth(50);
-            oImageArray[i].setFitHeight(50);
-        }
-          
-        topLeft = new Button();   
-        topCenter = new Button();
-        topRight = new Button();
-        middleLeft = new Button();
-        middleCenter = new Button();
-        middleRight = new Button();
-        bottomLeft = new Button();
-        bottomCenter = new Button();
-        bottomRight = new Button();
+        setBoardBlank();
+        setXimageArray();
+        setOimageArray();
+       
+        this.topLeft = new Button();   
+        this.topCenter = new Button();
+        this.topRight = new Button();
+        this.middleLeft = new Button();
+        this.middleCenter = new Button();
+        this.middleRight = new Button();
+        this.bottomLeft = new Button();
+        this.bottomCenter = new Button();
+        this.bottomRight = new Button();
         
         topLeft.setOnAction(new TopLeftButtonHandler());
         topCenter.setOnAction(new TopCenterButtonHandler());
@@ -121,6 +95,45 @@ public class GameBoardBuilder
         gameStage.setTitle("Tic Tac Toe");
         gameStage.show(); 
     }
+    
+    private void setBoardBlank()
+    {
+         for(int i = 0; i < gameBoard.length; i++)
+        {
+            for(int j = 0; j < gameBoard.length; j++)
+            {
+                gameBoard[i][j] = " ";
+            }
+        }
+         
+        for(int i = 0; i < blankImageArray.length; i++)
+        {
+            blankImageArray[i] = new ImageView(blankImage);
+            blankImageArray[i].setFitWidth(50);
+            blankImageArray[i].setFitHeight(50);
+        }
+    }
+    
+    private void setXimageArray()
+    {
+        for(int i = 0; i <xImageArray.length; i++)
+        {
+            xImageArray[i] = new ImageView(xImage);
+            xImageArray[i].setFitWidth(50);
+            xImageArray[i].setFitHeight(50);
+        }
+    }
+    
+    private void setOimageArray()
+    {
+        for(int i = 0; i < oImageArray.length; i++)
+        {
+            oImageArray[i] = new ImageView(oImage);
+            oImageArray[i].setFitWidth(50);
+            oImageArray[i].setFitHeight(50);
+        }
+    }
+    
     
     //Event handlers for buttons.
     private class TopLeftButtonHandler implements EventHandler<ActionEvent>
