@@ -31,6 +31,8 @@ public class GameBoardBuilder
     
     private int count = 0;
     private Stage gameStage;
+    private BorderPane boardLayout;
+    private HBox topRow, middleRow, bottomRow;
    
     //Constructor for game board;
     public GameBoardBuilder()
@@ -42,15 +44,13 @@ public class GameBoardBuilder
     
         this.gameResult = new Label();
         this.gameStage = new Stage();
+        this.boardLayout = new BorderPane();
+        this.gameScene = new Scene(boardLayout);
         
         this.xImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\xMove.jpg");
         this.oImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\circleMove.jpg");
         this.blankImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\blankSpace.jpg");
         
-        setBoardBlank();
-        setXimageArray();
-        setOimageArray();
-       
         this.topLeft = new Button();   
         this.topCenter = new Button();
         this.topRight = new Button();
@@ -61,41 +61,17 @@ public class GameBoardBuilder
         this.bottomCenter = new Button();
         this.bottomRight = new Button();
         
-        topLeft.setOnAction(new TopLeftButtonHandler());
-        topCenter.setOnAction(new TopCenterButtonHandler());
-        topRight.setOnAction(new TopRightButtonHandler());
-        middleLeft.setOnAction(new MiddleLeftButtonHandler());
-        middleCenter.setOnAction(new MiddleCenterButtonHandler());
-        middleRight.setOnAction(new MiddleRightButtonHandler());
-        bottomLeft.setOnAction(new BottomLeftButtonHandler());
-        bottomCenter.setOnAction(new BottomCenterButtonHandler());
-        bottomRight.setOnAction(new BottomRightButtonHandler());
-        
-        topLeft.setGraphic(blankImageArray[0]);
-        topCenter.setGraphic(blankImageArray[1]);
-        topRight.setGraphic(blankImageArray[2]);
-        middleLeft.setGraphic(blankImageArray[3]);
-        middleCenter.setGraphic(blankImageArray[4]);
-        middleRight.setGraphic(blankImageArray[5]);
-        bottomLeft.setGraphic(blankImageArray[6]);
-        bottomCenter.setGraphic(blankImageArray[7]);
-        bottomRight.setGraphic(blankImageArray[8]);
-        
-        HBox topRow = new HBox(5, topLeft, topCenter, topRight);
-        HBox middleRow = new HBox(5, middleLeft, middleCenter, middleRight);
-        HBox bottomRow = new HBox(5, bottomLeft, bottomCenter, bottomRight);
-        
-        BorderPane boardLayout = new BorderPane();
-        boardLayout.setTop(topRow);
-        boardLayout.setCenter(middleRow);
-        boardLayout.setBottom(bottomRow);
-        
-        gameScene = new Scene(boardLayout);
-        gameStage.setScene(gameScene);
-        gameStage.setTitle("Tic Tac Toe");
-        gameStage.show(); 
+        setBoardBlank();
+        setXimageArray();
+        setOimageArray();
+        setButtonHandlers();
+        setButtonGraphics();
+        setHbox();
+        setBoardLayout();
+        showBoard(); 
     }
     
+    //Set methods for constructor.
     private void setBoardBlank()
     {
          for(int i = 0; i < gameBoard.length; i++)
@@ -134,6 +110,65 @@ public class GameBoardBuilder
         }
     }
     
+    private void setButtonHandlers()
+    {
+        topLeft.setOnAction(new TopLeftButtonHandler());
+        topCenter.setOnAction(new TopCenterButtonHandler());
+        topRight.setOnAction(new TopRightButtonHandler());
+        middleLeft.setOnAction(new MiddleLeftButtonHandler());
+        middleCenter.setOnAction(new MiddleCenterButtonHandler());
+        middleRight.setOnAction(new MiddleRightButtonHandler());
+        bottomLeft.setOnAction(new BottomLeftButtonHandler());
+        bottomCenter.setOnAction(new BottomCenterButtonHandler());
+        bottomRight.setOnAction(new BottomRightButtonHandler());
+    }
+    
+    private void setButtonGraphics()
+    {
+        topLeft.setGraphic(blankImageArray[0]);
+        topCenter.setGraphic(blankImageArray[1]);
+        topRight.setGraphic(blankImageArray[2]);
+        middleLeft.setGraphic(blankImageArray[3]);
+        middleCenter.setGraphic(blankImageArray[4]);
+        middleRight.setGraphic(blankImageArray[5]);
+        bottomLeft.setGraphic(blankImageArray[6]);
+        bottomCenter.setGraphic(blankImageArray[7]);
+        bottomRight.setGraphic(blankImageArray[8]);
+    }
+    
+    private void setHbox()
+    {
+        topRow = new HBox(5, topLeft, topCenter, topRight);
+        middleRow = new HBox(5, middleLeft, middleCenter, middleRight);
+        bottomRow = new HBox(5, bottomLeft, bottomCenter, bottomRight);
+    }
+    
+    private void setBoardLayout()
+    {
+        boardLayout.setTop(topRow);
+        boardLayout.setCenter(middleRow);
+        boardLayout.setBottom(bottomRow);
+    }
+    
+    private void showBoard()
+    {
+        gameStage.setScene(gameScene);
+        gameStage.setTitle("Tic Tac Toe");
+        gameStage.show(); 
+    }
+    
+    private void disableOnResult()
+    {
+        topLeft.setDisable(true); 
+        topCenter.setDisable(true); 
+        topRight.setDisable(true); 
+        middleLeft.setDisable(true); 
+        middleCenter.setDisable(true); 
+        middleRight.setDisable(true); 
+        bottomLeft.setDisable(true); 
+        bottomCenter.setDisable(true); 
+        bottomRight.setDisable(true);
+    }
     
     //Event handlers for buttons.
     private class TopLeftButtonHandler implements EventHandler<ActionEvent>
@@ -430,6 +465,7 @@ public class GameBoardBuilder
         
         if(Functions.checkXwinner(gameBoard) == false && Functions.checkOwinner(gameBoard) == true)
         {
+            disableOnResult();
             isDone = true;
             count = 0;
             gameResult.setText("O wins!");
@@ -438,6 +474,7 @@ public class GameBoardBuilder
         }
         else if(Functions.checkXwinner(gameBoard) == true && Functions.checkOwinner(gameBoard) == false)
         {
+            disableOnResult();
             isDone = true;
             count = 0;
             gameResult.setText("X wins!");
