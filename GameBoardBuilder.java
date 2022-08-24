@@ -49,9 +49,9 @@ public class GameBoardBuilder
         this.boardLayout = new BorderPane();
         this.gameScene = new Scene(boardLayout);
         
-        this.xImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\xMove.jpg");
-        this.oImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\circleMove.jpg");
-        this.blankImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\blankSpace.jpg");
+        this.xImage = new Image("file:C:\\Users\\User\\FilePath\\images\\xMove.jpg");
+        this.oImage = new Image("file:C:\\Users\\User\\FilePath\\images\\circleMove.jpg");
+        this.blankImage = new Image("file:C:\\Users\\User\\FilePath\\images\\blankSpace.jpg");
         
         this.topLeft = new Button();   
         this.topCenter = new Button();
