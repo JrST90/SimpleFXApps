@@ -2,7 +2,6 @@ package joshs.tictactoe;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-//import javafx.scene.image.ImageView;
 
 
 public class App extends Application 
