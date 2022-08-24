@@ -16,22 +16,23 @@ import javafx.scene.image.ImageView;
 
 public class GameBoardBuilder 
 {
-    private Label gameResult;
+    private final Label gameResult;
     
-    private Button topLeft, topCenter, topRight, middleLeft, middleCenter, 
+    private final Button topLeft, topCenter, topRight, middleLeft, middleCenter, 
     middleRight, bottomLeft, bottomCenter, bottomRight, reset, exit;
     
-    private Image xImage, oImage, blankImage ;
-    private ImageView[] xImageArray, oImageArray, blankImageArray;
+    private final Image xImage, oImage, blankImage ;
+    private final ImageView[] xImageArray, oImageArray, blankImageArray;
     
-    private String[][] gameBoard;
+    private final String[][] gameBoard;
     
     private Stage resultStage;
-    private Scene resultScene, gameScene;
+    private Scene resultScene;
+    private final Scene gameScene;
     
     private int count = 0;
-    private Stage gameStage;
-    private BorderPane boardLayout;
+    private final Stage gameStage;
+    private final BorderPane boardLayout;
     private HBox topRow, middleRow, bottomRow;
     private VBox resultBox;
    
@@ -48,9 +49,9 @@ public class GameBoardBuilder
         this.boardLayout = new BorderPane();
         this.gameScene = new Scene(boardLayout);
         
-        this.xImage = new Image("file:C:\\Users\\User\\FilePath\\images\\xMove.jpg");
-        this.oImage = new Image("file:C:\\Users\\User\\Filepath\\images\\circleMove.jpg");
-        this.blankImage = new Image("file:C:\\Users\\User\\FilePath\\images\\blankSpace.jpg");
+        this.xImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\xMove.jpg");
+        this.oImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\circleMove.jpg");
+        this.blankImage = new Image("file:C:\\Users\\joshs\\Documents\\NetBeansProjects\\TicTacToe\\src\\images\\blankSpace.jpg");
         
         this.topLeft = new Button();   
         this.topCenter = new Button();
@@ -63,19 +64,10 @@ public class GameBoardBuilder
         this.bottomRight = new Button();
         this.reset = new Button();
         this.exit = new Button();
-        
-        setBoardBlank();
-        setXimageArray();
-        setOimageArray();
-        setButtonHandlers();
-        setButtonEmptyGraphics();
-        setHbox();
-        setBoardLayout();
-        showBoard(); 
     }
     
     //Set methods for constructor.
-    private void setBoardBlank()
+    public void setBoardBlank()
     {
          for(int i = 0; i < gameBoard.length; i++)
         {
@@ -93,7 +85,7 @@ public class GameBoardBuilder
         }
     }
     
-    private void setXimageArray()
+    public void setXimageArray()
     {
         for(int i = 0; i <xImageArray.length; i++)
         {
@@ -103,7 +95,7 @@ public class GameBoardBuilder
         }
     }
     
-    private void setOimageArray()
+    public void setOimageArray()
     {
         for(int i = 0; i < oImageArray.length; i++)
         {
@@ -113,7 +105,7 @@ public class GameBoardBuilder
         }
     }
     
-    private void setButtonHandlers()
+    public void setButtonHandlers()
     {
         topLeft.setOnAction(new TopLeftButtonHandler());
         topCenter.setOnAction(new TopCenterButtonHandler());
@@ -126,9 +118,18 @@ public class GameBoardBuilder
         bottomRight.setOnAction(new BottomRightButtonHandler());
         reset.setOnAction(new ResetButtonHandler());
         exit.setOnAction(new ExitButtonHandler());
+        topLeft.setFocusTraversable(false);
+        topCenter.setFocusTraversable(false);
+        topRight.setFocusTraversable(false);
+        middleLeft.setFocusTraversable(false);
+        middleCenter.setFocusTraversable(false);
+        middleRight.setFocusTraversable(false);
+        bottomLeft.setFocusTraversable(false);
+        bottomCenter.setFocusTraversable(false);
+        bottomRight.setFocusTraversable(false);
     }
     
-    private void setButtonEmptyGraphics()
+    public void setButtonEmptyGraphics()
     {
         topLeft.setGraphic(blankImageArray[0]);
         topCenter.setGraphic(blankImageArray[1]);
@@ -141,21 +142,21 @@ public class GameBoardBuilder
         bottomRight.setGraphic(blankImageArray[8]);
     }
     
-    private void setHbox()
+    public void setHbox()
     {
         topRow = new HBox(5, topLeft, topCenter, topRight);
         middleRow = new HBox(5, middleLeft, middleCenter, middleRight);
         bottomRow = new HBox(5, bottomLeft, bottomCenter, bottomRight);
     }
     
-    private void setBoardLayout()
+    public void setBoardLayout()
     {
         boardLayout.setTop(topRow);
         boardLayout.setCenter(middleRow);
         boardLayout.setBottom(bottomRow);
     }
     
-    private void showBoard()
+    public void showBoard()
     {
         gameStage.setScene(gameScene);
         gameStage.setTitle("Tic Tac Toe");

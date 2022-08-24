@@ -2,6 +2,7 @@ package joshs.tictactoe;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+//import javafx.scene.image.ImageView;
 
 
 public class App extends Application 
@@ -12,8 +13,16 @@ public class App extends Application
     }
     @Override
     public void start(Stage stage)
-    {
-        GameBoardBuilder build = new GameBoardBuilder();
+    {       
+        GameBoardBuilder buildBoard = new GameBoardBuilder();
+        buildBoard.setBoardBlank();
+        buildBoard.setXimageArray();
+        buildBoard.setOimageArray();
+        buildBoard.setButtonHandlers();
+        buildBoard.setButtonEmptyGraphics();
+        buildBoard.setHbox();
+        buildBoard.setBoardLayout();
+        buildBoard.showBoard(); 
     }
 }
 
